@@ -1,5 +1,9 @@
-import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import AppSidebarClient from "./_AppSidebarClient";
+import Link from "next/link";
+import { LogInIcon } from "lucide-react";
+import { SignedIn, SignedOut } from "@/services/clerk/components/SignInStatus";
+import { SidebarUserButton } from "@/features/users/components/SidebarUserButton";
 
 const Homepage = () => {
   return <SidebarProvider className="overflow-y-hidden">
@@ -10,12 +14,25 @@ const Homepage = () => {
           <span className="text-xl  text-nowrap">Apply Hub</span>
         </SidebarHeader>
         <SidebarContent>
-          menu list
+          <SidebarGroup>
+            <SidebarMenu>
+              <SignedOut>
+                <SidebarMenuItem>
+                  <SidebarMenuButton asChild>
+                    <Link href="/sign-in">
+                      <LogInIcon />
+                      <span>Sign-In</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              </SignedOut>
+            </SidebarMenu>
+          </SidebarGroup>
         </SidebarContent>
         <SidebarFooter>
           <SidebarMenu>
             <SidebarMenuItem>
-              <SidebarMenuButton>Logout</SidebarMenuButton>
+              <SidebarUserButton />
             </SidebarMenuItem>
           </SidebarMenu>
         </SidebarFooter>
