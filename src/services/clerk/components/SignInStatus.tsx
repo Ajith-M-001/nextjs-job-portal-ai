@@ -6,16 +6,12 @@ import {
 
 export function SignedOut({ children }: { children: ReactNode }) {
     return (
-        <Suspense>
-            <ClerkSignedOut>{children}</ClerkSignedOut>
-        </Suspense>
+        <ClerkSignedOut>{children}</ClerkSignedOut>
     )
 }
 
 export function SignedIn({ children }: { children: ReactNode }) {
     return (
-        <Suspense>
-            <ClerkSignedIn>{children}</ClerkSignedIn>
-        </Suspense>
+        <ClerkSignedIn>{children}</ClerkSignedIn>
     )
 }
