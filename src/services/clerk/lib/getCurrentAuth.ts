@@ -20,18 +20,20 @@ const getUser = async (userId: string) => {
     })
 }
 
+
 export const getCurrentOrganization =async ({ allData = false })=>{
-    const { orgId } = await auth();
+    const { orgId } = await auth()
+
 
     return {
         orgId,
-        organization : (allData && orgId !== null) ? await getOrganization(orgId!) : null
+        organization: allData && orgId != null ? await getOrganization(orgId) : undefined,
     }
 
 }
 
-const getOrganization = async (orgId: string) => {
+const getOrganization = async (id: string) => {
     return db.query.OrganizationTable.findFirst({
-        where: eq(OrganizationTable.id, orgId)
+        where: eq(OrganizationTable.id, id)
     })
 }
