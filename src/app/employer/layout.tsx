@@ -6,11 +6,26 @@ import {
   SidebarGroupLabel,
 } from "@/components/ui/sidebar";
 import { SidebarOrganizationButton } from "@/features/organizations/components/SidebarOrganizationButton";
+import { getCurrentOrganization } from "@/services/clerk/lib/getCurrentAuth";
 import { ClipboardListIcon, PlusIcon } from "lucide-react";
 import Link from "next/link";
-import React from "react";
+import { redirect } from "next/navigation";
+import React, { ReactNode, Suspense } from "react";
 
-const EmployerLayout = ({ children }: { children: React.ReactNode }) => {
+export default function EmployerLayout({ children }: { children: ReactNode }) {
+  return (
+    <Suspense>
+      <LayoutSuspense>{children}</LayoutSuspense>
+    </Suspense>
+  );
+}
+
+const LayoutSuspense = async ({ children }: { children: React.ReactNode }) => {
+  const { orgId } = await getCurrentOrganization({})
+
+  if (!orgId) return redirect("/organizations/select")
+
+
   return (
     <AppSidebar
       content={
@@ -37,5 +52,3 @@ const EmployerLayout = ({ children }: { children: React.ReactNode }) => {
     </AppSidebar>
   );
 };
-
-export default EmployerLayout;
