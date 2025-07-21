@@ -16,7 +16,7 @@ export default function InternalMarkdownEditor({
 
     return <MDXEditor
         ref={ref}
-        className={cn(markdownClassNames, isDarkMode && "dark-theme", className)}
+        className={cn(markdownClassNames, isDarkMode && "dark-theme prose-invert", className)}
         {...props}
         suppressHtmlProcessing
         spellCheck

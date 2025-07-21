@@ -1,5 +1,5 @@
 import { Card, CardContent } from '@/components/ui/card'
-import JobListingForm from '@/features/jobListings/db/components/JobListingForm'
+import JobListingForm from '@/features/jobListings/components/JobListingForm'
 import React from 'react'
 
 const NewJobListingPage = () => {
