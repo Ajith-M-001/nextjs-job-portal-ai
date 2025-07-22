@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import React, { Suspense } from "react";
 import { db } from "@/drizzle/db";
 import { and, eq } from "drizzle-orm";
-import { JobListingTable } from "@/drizzle/schema";
+import { JobListingStatus, JobListingTable } from "@/drizzle/schema";
 import { Badge } from "@/components/ui/badge";
 import { formatJobListingStatus } from "@/features/jobListings/lib/formatters";
 import { JobListingBadges } from "@/features/jobListings/components/JobListingBadges";
@@ -12,6 +12,11 @@ import Link from "next/link";
 import { EditIcon } from "lucide-react";
 import { MarkdownPartial } from "@/components/markdown/MarkdownPartial";
 import MarkdownRenderer from "@/components/markdown/MarkdownRenderer";
+import { hasOrgUserPermission } from "@/services/clerk/lib/orgUserPermissions";
+import AsyncIf from "@/components/AsyncIf";
+import { getNextJobListingStatus } from "@/features/jobListings/lib/utils";
+import { hasPlanFeature } from "@/services/clerk/lib/planFeatures";
+import { hasReachedMaxPublishedJobListings } from "@/features/jobListings/lib/planfeatureHelpers";
 
 type Props = {
     params: Promise<{ jobListingId: string }>;
@@ -46,12 +51,19 @@ async function SuspendedPage({ params }: Props) {
                     </div>
                 </div>
                 <div className="flex items-center gap-2 empty:-mt-4">
-                    <Button asChild variant={"outline"}>
-                        <Link href={`/employer/job-listings/${jobListing.id}/edit`}>
-                            <EditIcon className="size-4" />
-                            <span>Edit</span>
-                        </Link>
-                    </Button>
+                    <AsyncIf
+                        condition={() =>
+                            hasOrgUserPermission("database_access:job_listing_update")
+                        }
+                    >
+                        <Button asChild variant={"outline"}>
+                            <Link href={`/employer/job-listings/${jobListing.id}/edit`}>
+                                <EditIcon className="size-4" />
+                                <span>Edit</span>
+                            </Link>
+                        </Button>
+                    </AsyncIf>
+                    <StatusUpdateButton status={jobListing.status} />
                 </div>
             </div>
             <MarkdownPartial
@@ -65,6 +77,32 @@ async function SuspendedPage({ params }: Props) {
                 dialogTitle="Description"
             />
         </div>
+    );
+}
+
+function StatusUpdateButton({ status }: { status: JobListingStatus }) {
+    const button = <Button variant={"outline"}>Toggle</Button>;
+    return (
+        <AsyncIf
+            condition={() =>
+                hasOrgUserPermission("database_access:job_listing_change_status")
+            }
+        >
+            {getNextJobListingStatus(status) === "published" ? (
+                <AsyncIf
+                    condition={async () => {
+                        const isMaxed = await hasReachedMaxPublishedJobListings();
+                        return !isMaxed;
+                    }}
+                    otherWise={"fdsaf"}
+                >
+                    {button}
+                </AsyncIf>
+
+            ) : (
+                button
+            )}
+        </AsyncIf>
     );
 }
 
