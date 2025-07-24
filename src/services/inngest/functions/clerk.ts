@@ -13,7 +13,7 @@ function verifyWebhook({
   raw: string;
   headers: Record<string, string>;
   }) {
-  console.log(env.CLERK_WEBHOOK_SECRET , raw , headers, "env.CLERK_WEBHOOK_SECRET"); 
+  
   return new Webhook(env.CLERK_WEBHOOK_SECRET).verify(raw, headers);
 }
 

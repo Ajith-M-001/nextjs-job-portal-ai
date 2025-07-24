@@ -22,7 +22,6 @@ const AppSidebar = ({
   children: ReactNode;
 }) => {
 
-  console.log(footerButton, "footerButton");
   return (
     <SidebarProvider className="overflow-y-hidden">
       <AppSidebarClient>

@@ -7,31 +7,40 @@ import {
   LayoutDashboard,
   LogInIcon,
 } from "lucide-react";
-import React from "react";
+import { ReactNode } from "react";
 
-const JobSeekerLayout = ({ children }: { children: React.ReactNode }) => {
+const JobSeekerLayout = ({
+  children,
+  sidebar,
+}: {
+  children: ReactNode;
+  sidebar: ReactNode;
+}) => {
   return (
     <AppSidebar
       content={
-        <SidebarNavMenuGroup
-          className="mt-auto"
-          items={[
-            { href: "/", icon: <ClipboardListIcon />, label: "Job Board" },
-            { href: "/ai-search", icon: <BrainCircuit />, label: "AI Search" },
-            {
-              href: "/employer",
-              icon: <LayoutDashboard />,
-              label: "Employer DashBoard",
-              authStatus: "signedIn",
-            },
-            {
-              href: "/sign-in",
-              icon: <LogInIcon />,
-              label: "Sign In",
-              authStatus: "signedOut",
-            },
-          ]}
-        />
+        <>
+          {sidebar}
+          <SidebarNavMenuGroup
+            className="mt-auto"
+            items={[
+              { href: "/", icon: <ClipboardListIcon />, label: "Job Board" },
+              { href: "/ai-search", icon: <BrainCircuit />, label: "AI Search" },
+              {
+                href: "/employer",
+                icon: <LayoutDashboard />,
+                label: "Employer DashBoard",
+                authStatus: "signedIn",
+              },
+              {
+                href: "/sign-in",
+                icon: <LogInIcon />,
+                label: "Sign In",
+                authStatus: "signedOut",
+              },
+            ]}
+          />
+        </>
       }
       footerButton={<SidebarUserButton />}
     >
