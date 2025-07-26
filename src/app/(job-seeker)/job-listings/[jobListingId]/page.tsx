@@ -27,6 +27,7 @@ import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } 
 import { AlertDialogHeader } from "@/components/ui/alert-dialog";
 import { connection } from "next/server";
 import { differenceInDays } from "date-fns";
+import NewJobListingApplicationForm from "@/features/jobListingApplications/components/NewJobListingApplicationForm";
 
 const JobListingPage = ({
     params,
@@ -221,7 +222,7 @@ async function ApplyButton({ jobListingId }: { jobListingId: string }) {
                     </DialogDescription>
                 </AlertDialogHeader>
                 <div className="flex-1 overflow-y-auto">
-                    {/* <NewJobListingApplicationForm jobListingId={jobListingId} /> */}
+                    <NewJobListingApplicationForm jobListingId={jobListingId} />
                 </div>
             </DialogContent>
         </Dialog>

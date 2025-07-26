@@ -63,7 +63,7 @@ const SidebarUserButtonClient = ({ user }: { user: User }) => {
                     <span>Profile</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                    <Link href={"/user-setting/notifications"}>
+                    <Link href={"/user-settings/notifications"}>
                         <SettingsIcon />
                         <span>Setting</span>
                     </Link>
